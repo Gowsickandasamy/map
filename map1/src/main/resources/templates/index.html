@@ -65,7 +65,18 @@
             setLocationButton.addEventListener('click', function () {
               const position = markerposition.getLatLng();
               console.log('Set location: ' + position.lat + ', ' + position.lng);
-              // You can now store the location or perform other actions as needed
+
+              // Send location to the server
+              fetch('/setLocation', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ latitude: position.lat, longitude: position.lng }),
+              })
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error setting location:', error));
             });
 
             map.on('click', function (event) {
